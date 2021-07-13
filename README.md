@@ -9,7 +9,7 @@
 
 - Скачайте код
 - Установите зависимости командой `pip install -r requirements.txt`
-- Запустите сервер командой `python3 backup_copy.py`
+- Запустите скрипт командой `python3 backup_copy.py`
 
 ## Переменные окружения
 
