@@ -38,11 +38,14 @@ def get_user_profile_photos_info(vk_api_token, vk_api_version):
         else:
             file_name = item['date']
         likes.append(likes_count)
-        photo_info = {'file_name': file_name,
-                      'link': item['sizes'][-1]['url']
-                      }
-        file_info_to_json = {'file_name': file_name,
-                             'size': item['sizes'][-1]['type']}
+        photo_info = {
+            'file_name': file_name,
+            'link': item['sizes'][-1]['url']
+            }
+        file_info_to_json = {
+            'file_name': file_name,
+            'size': item['sizes'][-1]['type']
+            }
         user_photos_info.append(photo_info)
         files_info_to_json.append(file_info_to_json)
 
@@ -53,7 +56,7 @@ def create_ya_disk_folder(folder_name, token):
     url = 'https://cloud-api.yandex.net/v1/disk/resources'
     params = {
         'path': folder_name
-    }
+        }
     headers = {'Authorization': f'OAuth {token}'}
     response = requests.put(url, params=params, headers=headers)
     if 'error' in response.json():
