@@ -25,7 +25,7 @@ def get_user_profile_photos_info(vk_api_token, vk_api_version):
         'album_id': 'profile',
         'photo_sizes': 1,
         'extended': 1
-    }
+        }
     response = requests.get(url, params=params).json()
     if 'error' in response:
         logging.error(response['error']) #можно ли так делать? точнее нужно ли?
