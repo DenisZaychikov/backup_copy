@@ -65,7 +65,7 @@ def create_ya_disk_folder(folder_name, token):
 
 
 def get_ya_disk_upload_url(ya_disk_token, file_name):
-    url = 'https://cloud-api.yandex.net/v1/disk/resources/uplaoad'
+    url = 'https://cloud-api.yandex.net/v1/disk/resources/upload'
     params = {'path': f"{YA_DISK_FOLDER}/{file_name}"}
     headers = {'Authorization': f'OAuth {ya_disk_token}'}
     response = requests.get(url, params=params, headers=headers)
