@@ -14,6 +14,14 @@ def save_files_info_to_json(info):
         json.dump(info, file, indent=2)
 
 
+def get_max_photo_size(photos_info):
+    photo_sizes = ['w', 'z', 'y', 'r', 'q', 'p', 'o', 'x', 'm', 's']
+    for size in photo_sizes:
+        for photo_info in photos_info:
+            if photo_info['type'] == size:
+                return photo_info['url'], photo_info['type']
+
+
 def get_user_profile_photos_info(vk_api_token, vk_api_version):
     user_photos_info = []
     files_info_to_json = []
@@ -34,17 +42,18 @@ def get_user_profile_photos_info(vk_api_token, vk_api_version):
     for item in response['response']['items']:
         likes_count = item['likes']['count']
         if not likes_count in likes:
-            file_name = likes_count
+            file_name = str(likes_count)
         else:
-            file_name = item['date']
+            file_name = f"{likes_count}_{item['date']}"
         likes.append(likes_count)
+        link, size = get_max_photo_size(item['sizes'])
         photo_info = {
             'file_name': file_name,
-            'link': item['sizes'][-1]['url']
+            'link': link
             }
         file_info_to_json = {
             'file_name': file_name,
-            'size': item['sizes'][-1]['type']
+            'size': size
             }
         user_photos_info.append(photo_info)
         files_info_to_json.append(file_info_to_json)
@@ -65,7 +74,7 @@ def create_ya_disk_folder(folder_name, token):
 
 
 def get_ya_disk_upload_url(ya_disk_token, file_name):
-    url = 'https://cloud-api.yandex.net/v1/disk/resources/uplaoad'
+    url = 'https://cloud-api.yandex.net/v1/disk/resources/upload'
     params = {'path': f"{YA_DISK_FOLDER}/{file_name}"}
     headers = {'Authorization': f'OAuth {ya_disk_token}'}
     response = requests.get(url, params=params, headers=headers)
