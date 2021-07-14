@@ -36,7 +36,7 @@ def get_user_profile_photos_info(vk_api_token, vk_api_version):
         }
     response = requests.get(url, params=params).json()
     if 'error' in response:
-        logging.error(response['error']) #можно ли так делать? точнее нужно ли?
+        logging.error(response['error'])
         raise requests.HTTPError(response['error'])
 
     for item in response['response']['items']:
@@ -69,7 +69,7 @@ def create_ya_disk_folder(folder_name, token):
     headers = {'Authorization': f'OAuth {token}'}
     response = requests.put(url, params=params, headers=headers)
     if 'error' in response.json():
-        logging.error(f"{response.json()['message']}") #можно ли так делать? точнее нужно ли?
+        logging.error(f"{response.json()['message']}")
     response.raise_for_status()
 
 
@@ -79,7 +79,7 @@ def get_ya_disk_upload_url(ya_disk_token, file_name):
     headers = {'Authorization': f'OAuth {ya_disk_token}'}
     response = requests.get(url, params=params, headers=headers)
     if 'error' in response.json():
-        logging.error(f"{response.json()['message']}") #можно ли так делать? точнее нужно ли?
+        logging.error(f"{response.json()['message']}")
     response.raise_for_status()
     data = response.json()
     link = data['href']
@@ -95,10 +95,10 @@ def upload_file(ya_url, photo_url, file_name):
     response = requests.put(ya_url, files=files)
     response.raise_for_status()
     if response.status_code == 201 and response.ok:
-        logging.info(f'Файл {file_name} успешно сохранен на яндекс диске!') #можно ли так делать? точнее нужно ли?
+        logging.info(f'Файл {file_name} успешно сохранен на яндекс диске!')
     else:
         logging.error(
-            f'Файл {file_name} не сохранился на яндекс диске! status_code = {response.status_code}') #можно ли так делать? точнее нужно ли?
+            f'Файл {file_name} не сохранился на яндекс диске! status_code = {response.status_code}') 
 
 
 if __name__ == '__main__':
