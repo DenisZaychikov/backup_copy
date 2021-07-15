@@ -87,18 +87,18 @@ def get_ya_disk_upload_url(ya_disk_token, file_name):
     return link
 
 
-def upload_file(ya_url, photo_url, file_name):
+def upload_file_to_ya_disk(ya_url, photo_url, file_name):
     response = requests.get(photo_url)
     response.raise_for_status()
     file = response.content
     files = {'file': file}
     response = requests.put(ya_url, files=files)
-    response.raise_for_status()
     if response.status_code == 201 and response.ok:
         logging.info(f'Файл {file_name} успешно сохранен на яндекс диске!')
     else:
         logging.error(
-            f'Файл {file_name} не сохранился на яндекс диске! status_code = {response.status_code}') 
+            f'Файл {file_name} не сохранился на яндекс диске! status_code = {response.status_code}')
+    response.raise_for_status()
 
 
 if __name__ == '__main__':
@@ -114,5 +114,5 @@ if __name__ == '__main__':
         photo_url = file_info['link']
         file_name = str(file_info['file_name'])
         ya_disk_upload_url = get_ya_disk_upload_url(ya_disk_token, file_name)
-        upload_file(ya_disk_upload_url, photo_url, file_name)
+        upload_file_to_ya_disk(ya_disk_upload_url, photo_url, file_name)
     save_files_info_to_json(files_info_to_json)
